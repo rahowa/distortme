@@ -15,7 +15,7 @@ class CopyTo:
         self.path_to_save = path_to_save
     
     def __call__(self, file_to_copy: str) -> None:
-        filename = file_to_copy.split('/')[-1]
+        filename = os.path.basename(file_to_copy)
         shutil.copy(file_to_copy, os.path.join(self.path_to_save, filename))
 
 
@@ -24,14 +24,14 @@ class MoveTo:
         self.path_to_save = path_to_save
     
     def __call__(self, file_to_copy: str) -> None:
-        filename = file_to_copy.split('/')[-1]
+        filename = os.path.basename(file_to_copy)
         shutil.move(file_to_copy, os.path.join(self.path_to_save, filename))
         
 
 def copy_files_to_folders(files: List[str], path_to_save: str) -> None:
     if len(files) <= 100:
         for file in files:
-            filename = file.split('/')[-1]
+            filename = os.path.basename(file)
             shutil.copy(file, os.path.join(path_to_save, filename))
     else:
         pool = mp.Pool(mp.cpu_count())
@@ -50,7 +50,7 @@ def move_files_to_folders(files: List[str], path_to_save: str) -> None:
         pool.map(copy_fn, files)
 
 
-def map_classes_to_files(files: Tuple[str, ...], descriptors: Tuple[str], imdir: str) -> Dict[str, List[str]]:
+def map_classes_to_files(files: Tuple[str, ...], descriptors: Tuple[str, ...], imdir: str) -> Dict[str, List[str]]:
     classes_to_files: Dict[str, List[str]] = defaultdict(list)
     for img in files:
         for current_desc in descriptors: 
@@ -79,4 +79,3 @@ def main_show_hist(imdir: str, descriptors: List[str]):
     fig = tpl.figure()
     fig.barh(num_files, descriptors, force_ascii=False)
     fig.show()
-    
