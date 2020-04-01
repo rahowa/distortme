@@ -4,12 +4,13 @@ from albumentations import (Rotate, ShiftScaleRotate, RandomContrast,
                             HueSaturationValue, Equalize, RandomCrop,
                             Resize, RandomBrightness, ToGray)
 
+
 class SlowAugs(str, Enum):
     rotate = "rotate"
     shift_scale_rotate = "shift_scale_rotate"
     shift_hsv = "shift_hsv"
     equalize = "equalize"
-    to_gray =  "to_gray"
+    to_gray = "to_gray"
     resize512 = "resize512"
     resize300 = "resize300"
     resize256 = "resize256"
@@ -17,6 +18,7 @@ class SlowAugs(str, Enum):
     contrast = "contrast"
     crop = "crop",
     bright = "bright"
+
 
 SLOW_AUGS_DICT = frozendict(
     rotate=Rotate(always_apply=True),
@@ -32,5 +34,3 @@ SLOW_AUGS_DICT = frozendict(
     crop=RandomCrop(64, 64, always_apply=True),
     bright=RandomBrightness(always_apply=True)
 )
-
-
