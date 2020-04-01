@@ -1,9 +1,13 @@
-import typer 
+import sys
+import typer
 from typing import List
 from colorama import init
 
+sys.path.append("../")
+
 from src.aug_utils import main_apply_augmentations, SlowAugs
 from src.split_utils import main_split_files, main_show_hist
+from src.hdf5_utils import main_save_to_hdf5, main_extract_from_hdf5
 
 app = typer.Typer()
 init()
@@ -58,20 +62,65 @@ def split(imdir: str = None, desc: List[str] = None, copy: bool = typer.Option(T
 
 
 @app.command()
-def tohd5() -> None:
-    pass 
+def tohd5(imdir: str = None, labels: str = typer.Option(None)) -> None:
+    """
+    Convert dataset into HDF5 format to speedup data loading.\n
+    --imdir Directory with images to convert
+    """
+    if not imdir:
+        typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
+        exit()
+    else:
+        main_save_to_hdf5(imdir, labels)
+
 
 @app.command()
-def fromhd5() -> None:
-    pass 
+def fromhd5(file: List[str] = None) -> None:
+    """
+    Extract files from HDF5 dataset.\n
+    --file HDF5 file to extract
+    """
+    if not file:
+        typer.echo("Provide at least one .h5 file")
+        exit()
+    else:
+        for filename in file:
+            main_extract_from_hdf5(filename)
+
 
 @app.command()
-def torle() -> None:
+def torle(imdir: str = typer.Option(None), file: List[str] = typer.Option(None)) -> None:
+    """
+    Convert images with masks to .csv filr with RLE labels.\n
+    --imdir Directory with images to convert.\n
+    --file  File to convert to RLE (one at time).
+    """
     pass
 
+
 @app.command()
-def fromrle() -> None:
+def fromrle(file: List[str] = None) -> None:
+    """
+    Convert RLE format of masks to .PNG\n
+    --file File with RLE labels
+    """
     pass 
+
+
+@app.command()
+def label(imdir: str,
+          classes: bool = typer.Option(bool),
+          faces: bool = typer.Option(False),
+          boxes: bool = typer.Option(False)) -> None:
+    """
+    Create labels for images.\n
+    --imdir   Directory with images to process.\n
+    --classes Classify all images according to IMAGENET dataset.\n
+    --faces   Detect all faces and store boxes at normalized {xmin, ymin, xmax, ymax} format.\n
+    --boxes   Detect all boxes and scores according to COCO dataset.\n
+    """
+    pass 
+
 
 if __name__ == "__main__":
     app()
