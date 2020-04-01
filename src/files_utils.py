@@ -1,9 +1,11 @@
-import os 
+import os
 from typing import Iterator, Sequence, Tuple
+
 
 def images(folder: str) -> Tuple[str, ...]:
     valid_formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')
     return tuple(filter(lambda x: x.endswith(valid_formats), os.listdir(folder)))
+
 
 def current_dir() -> str:
     return os.getcwd()
