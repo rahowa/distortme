@@ -1,6 +1,7 @@
 import sys
 import typer
 from typing import List
+from pathlib import Path
 from colorama import init
 
 sys.path.append("../")
@@ -12,8 +13,9 @@ from src.rle_utils import main_torle
 app = typer.Typer()
 init()
 
+
 @app.command()
-def augs(imdir: str = None, aug: List[SlowAugs] = None) -> None:
+def augs(imdir: Path = None, aug: List[SlowAugs] = None) -> None:
     """
     Apply provided augmentations to all images in imdir and copy them to 
     different folders with name corresponded to augmentation.\n
@@ -31,11 +33,11 @@ def augs(imdir: str = None, aug: List[SlowAugs] = None) -> None:
         typer.echo("Provide augmentations: --aug reisze224 --aug rotate etc.")
         typer.Exit()
     else:
-        main_apply_augmentations(imdir, aug)
+        main_apply_augmentations(str(imdir), aug)
 
 
 @app.command()
-def split(imdir: str = None, desc: List[str] = None, copy: bool = typer.Option(True)) -> None:
+def split(imdir: Path = None, desc: List[str] = None, copy: bool = typer.Option(True)) -> None:
     """
     Split images into follders according to provided descriptor in file name.\n
     --imdir Directory with files (e.g. images) to process\n
@@ -49,12 +51,12 @@ def split(imdir: str = None, desc: List[str] = None, copy: bool = typer.Option(T
         typer.echo("Provide descriptor of class in file name:  IMG001_cls_0.jpg -> --desc cls_0.")
         typer.Exit()
     else:
-        main_split_files(imdir, desc, copy)
-        main_show_hist(imdir, desc)
+        main_split_files(str(imdir), desc, copy)
+        main_show_hist(str(imdir), desc)
 
 
 @app.command()
-def tohd5(imdir: str = None, labels: str = typer.Option(None)) -> None:
+def tohd5(imdir: Path = None, labels: str = typer.Option(None)) -> None:
     """
     Convert dataset into HDF5 format to speedup data loading.\n
     --imdir Directory with images to convert
@@ -63,11 +65,11 @@ def tohd5(imdir: str = None, labels: str = typer.Option(None)) -> None:
         typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
         typer.Exit()
     else:
-        main_save_to_hdf5(imdir, labels)
+        main_save_to_hdf5(str(imdir), labels)
 
 
 @app.command()
-def fromhd5(file: List[str] = None) -> None:
+def fromhd5(file: List[Path] = None) -> None:
     """
     Extract files from HDF5 dataset.\n
     --file HDF5 file to extract
@@ -76,11 +78,11 @@ def fromhd5(file: List[str] = None) -> None:
         typer.echo("Provide at least one .h5 file")
         exit()
     else:
-        main_extract_from_hdf5(file)
+        main_extract_from_hdf5(tuple(map(lambda x: str(x), file)))
 
 
 @app.command()
-def torle(imdir: str = typer.Option(None)) -> None:
+def torle(imdir: Path = typer.Option(None)) -> None:
     """
     Convert images with masks to .csv filr with RLE labels.\n
     --imdir Directory with images to convert.\n
@@ -89,11 +91,11 @@ def torle(imdir: str = typer.Option(None)) -> None:
         typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
         exit()
     else:
-        main_torle(imdir)
+        main_torle(str(imdir))
 
 
 @app.command()
-def fromrle(file: List[str] = None) -> None:
+def fromrle(file: List[Path] = None) -> None:
     """
     Convert RLE format of masks to .PNG\n
     --file File with RLE labels
@@ -102,7 +104,7 @@ def fromrle(file: List[str] = None) -> None:
 
 
 @app.command()
-def label(imdir: str,
+def label(imdir: Path,
           classes: bool = typer.Option(bool),
           faces: bool = typer.Option(False),
           boxes: bool = typer.Option(False)) -> None:
