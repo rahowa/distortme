@@ -6,13 +6,16 @@ from colorama import init
 
 sys.path.append("../")
 
+from src.datasets_utils import Datasets
 from src.aug_utils import main_apply_augmentations, SlowAugs
 from src.split_utils import main_split_files, main_show_hist
 from src.hdf5_utils import main_save_to_hdf5, main_extract_from_hdf5
 from src.rle_utils import main_torle
+from src.main_utils import not_implemented
+
+
 app = typer.Typer()
 init()
-
 
 
 @app.callback()
@@ -105,6 +108,7 @@ def torle(imdir: Path = typer.Option(None)) -> None:
 
 
 @app.command()
+@not_implemented
 def fromrle(file: List[Path] = None) -> None:
     """
     Convert RLE format of masks to .PNG\n
@@ -114,7 +118,8 @@ def fromrle(file: List[Path] = None) -> None:
 
 
 @app.command()
-def label(imdir: Path,
+@not_implemented
+def label(imdir: Path = None,
           classes: bool = typer.Option(bool),
           faces: bool = typer.Option(False),
           boxes: bool = typer.Option(False)) -> None:
@@ -125,7 +130,13 @@ def label(imdir: Path,
     --faces   Detect all faces and store boxes at normalized {xmin, ymin, xmax, ymax} format.\n
     --boxes   Detect all boxes and scores according to COCO dataset.\n
     """
-    pass 
+    pass
+
+
+@app.command()
+@not_implemented
+def download(dataset: List[Datasets] = None) -> None:
+    pass
 
 
 if __name__ == "__main__":
