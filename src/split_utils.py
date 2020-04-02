@@ -8,7 +8,7 @@ import termplotlib as tpl
 from frozendict import frozendict
 
 from src.files_utils import full_path, images, create_folders
-
+from src.main_utils import print_delimiter
 
 class CopyTo:
     def __init__(self, path_to_save: str) -> None:
@@ -60,6 +60,7 @@ def map_classes_to_files(files: Tuple[str, ...], descriptors: Tuple[str, ...], i
     return frozendict(classes_to_files)
 
 
+@print_delimiter("Split files...")
 def main_split_files(imdir: str, descriptors: List[str], copy: bool = True) -> None:
     all_images = images(imdir)
     classes_folders = tuple(full_path(tuple(descriptors), imdir))
@@ -73,6 +74,7 @@ def main_split_files(imdir: str, descriptors: List[str], copy: bool = True) -> N
             move_files_to_folders(classes_to_files[cls_desc], out_dir)
 
 
+@print_delimiter("Histogram of classes", None)
 def main_show_hist(imdir: str, descriptors: List[str]):
     folders_with_files = [os.path.join(imdir, desc) for desc in descriptors]
     num_files = tuple(len(os.listdir(files)) for files in folders_with_files)

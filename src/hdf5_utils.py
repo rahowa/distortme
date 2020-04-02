@@ -1,14 +1,15 @@
 import os
-import typer
-import h5py
-import pandas as pd
-import numpy as np
-from typing import Sequence, Tuple
-import multiprocessing as mp
 import cv2
+import h5py
+import typer
+import numpy as np
+import pandas as pd
+import multiprocessing as mp
+from typing import Sequence, Tuple
 
 from src.base_types import Labels, Image
 from src.files_utils import images, create_folders
+from src.main_utils import print_delimiter
 
 
 def read_labels_npy(path: str) -> Labels:
@@ -94,6 +95,7 @@ def extract_from_hdf5(path: str) -> None:
                 labels_file.write('\n')
 
 
+@print_delimiter("Create HDF5 dataset from images...")
 def main_save_to_hdf5(imdir: str, labels: str) -> None:
     img_names = images(imdir)
     img_locations = tuple(os.path.join(imdir, img_name) for img_name in img_names)
@@ -109,6 +111,7 @@ def main_save_to_hdf5(imdir: str, labels: str) -> None:
     save_to_hdf5(imdir, img_names, img_data, labels_file)
 
 
+@print_delimiter("Extract images from HDF5 dataset...")
 def main_extract_from_hdf5(files: Sequence[str]):
     for filename in files:
         extract_from_hdf5(filename)

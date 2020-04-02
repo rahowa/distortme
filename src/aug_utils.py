@@ -1,13 +1,14 @@
 import os
 import cv2
+from tqdm import tqdm
 import multiprocessing as mp
 from typing import Sequence, List
-from src.base_types import Image, BaseAug
 
-from tqdm import tqdm
+
+from src.base_types import Image, BaseAug
 from src.augmentations import SLOW_AUGS_DICT, SlowAugs
 from src.files_utils import create_folders, full_path, images
-
+from src.main_utils import print_delimiter
 
 class ApplyAugmentation:
     def __init__(self, output_folder: str, aug: BaseAug) -> None:
@@ -32,6 +33,7 @@ def augment_all_images(images: Sequence[str], output_folder: str, aug: BaseAug) 
     pool.map(process_one_image, images)
 
 
+@print_delimiter("Applying augmentations to images...")
 def main_apply_augmentations(imdir: str, augs: List[SlowAugs]) -> None:
     all_images = tuple(map(lambda x: os.path.join(imdir, x), images(imdir)))
     used_augs = tuple(SLOW_AUGS_DICT[aug.value] for aug in augs)
