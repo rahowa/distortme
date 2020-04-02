@@ -8,10 +8,9 @@ sys.path.append("../")
 from src.aug_utils import main_apply_augmentations, SlowAugs
 from src.split_utils import main_split_files, main_show_hist
 from src.hdf5_utils import main_save_to_hdf5, main_extract_from_hdf5
-
+from src.rle_utils import main_torle
 app = typer.Typer()
 init()
-
 
 @app.command()
 def augs(imdir: str = None, aug: List[SlowAugs] = None) -> None:
@@ -27,16 +26,12 @@ def augs(imdir: str = None, aug: List[SlowAugs] = None) -> None:
     """
     if not imdir:
         typer.echo("Provide path to folder with images: --imdir path/to/folder")
-        exit()
+        typer.Exit()
     if not aug:
         typer.echo("Provide augmentations: --aug reisze224 --aug rotate etc.")
-        exit()
+        typer.Exit()
     else:
-        typer.echo("="*80)
-        typer.echo("Porocess images: ... \n")
         main_apply_augmentations(imdir, aug)
-        typer.echo("DONE!\n")
-        typer.echo("="*80)
 
 
 @app.command()
@@ -49,16 +44,13 @@ def split(imdir: str = None, desc: List[str] = None, copy: bool = typer.Option(T
     """ 
     if not imdir:
         typer.echo("Provide path to folder with files: --imdir path/to/folder")
-        exit()
+        typer.Exit()
     if not desc:
         typer.echo("Provide descriptor of class in file name:  IMG001_cls_0.jpg -> --desc cls_0.")
-        exit()
+        typer.Exit()
     else:
         main_split_files(imdir, desc, copy)
-        typer.echo("="*80)
-        typer.echo("Historgramm of classes:\n")
         main_show_hist(imdir, desc)
-        typer.echo("="*80)
 
 
 @app.command()
@@ -69,7 +61,7 @@ def tohd5(imdir: str = None, labels: str = typer.Option(None)) -> None:
     """
     if not imdir:
         typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
-        exit()
+        typer.Exit()
     else:
         main_save_to_hdf5(imdir, labels)
 
@@ -88,13 +80,16 @@ def fromhd5(file: List[str] = None) -> None:
 
 
 @app.command()
-def torle(imdir: str = typer.Option(None), file: List[str] = typer.Option(None)) -> None:
+def torle(imdir: str = typer.Option(None)) -> None:
     """
     Convert images with masks to .csv filr with RLE labels.\n
     --imdir Directory with images to convert.\n
-    --file  File to convert to RLE (one at time).
     """
-    pass
+    if not imdir:
+        typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
+        exit()
+    else:
+        main_torle(imdir)
 
 
 @app.command()
