@@ -84,8 +84,7 @@ def fromhd5(file: List[str] = None) -> None:
         typer.echo("Provide at least one .h5 file")
         exit()
     else:
-        for filename in file:
-            main_extract_from_hdf5(filename)
+        main_extract_from_hdf5(file)
 
 
 @app.command()

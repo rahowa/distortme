@@ -3,7 +3,7 @@ import typer
 import h5py
 import pandas as pd
 import numpy as np
-from typing import List, Tuple
+from typing import Sequence, Tuple
 import multiprocessing as mp
 import cv2
 
@@ -109,5 +109,6 @@ def main_save_to_hdf5(imdir: str, labels: str) -> None:
     save_to_hdf5(imdir, img_names, img_data, labels_file)
 
 
-def main_extract_from_hdf5(file: str):
-    extract_from_hdf5(file)
+def main_extract_from_hdf5(files: Sequence[str]):
+    for filename in files:
+        extract_from_hdf5(filename)
