@@ -14,6 +14,16 @@ app = typer.Typer()
 init()
 
 
+
+@app.callback()
+def callback() -> None:
+    """
+    CLI utility for augmentation and preprocessing images.
+
+    Possible operations are given below under 'Commands: '
+
+    """
+
 @app.command()
 def augs(imdir: Path = None, aug: List[SlowAugs] = None) -> None:
     """
