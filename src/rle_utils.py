@@ -1,9 +1,11 @@
 import os
-from typing import Sequence
+from typing import Sequence, Tuple
 
 import cv2
 import numpy as np
 import pandas as pd
+import multiprocessing as mp
+
 from src.base_types import Image, ImageShape
 from src.files_utils import images
 from src.main_utils import print_delimiter
@@ -32,10 +34,25 @@ def mask2rle(image: Image) -> str:
     return ' '.join(str(x) for x in runs)
 
 
+def convert_to_rle(img_data: Sequence[Image]) -> Tuple[str, ...]:
+    if len(img_data) < 100:
+        return tuple(mask2rle(img) for img in img_data)
+
+    pool = mp.Pool(mp.cpu_count())
+    return tuple(pool.map(mask2rle, img_data))
+
+
 @print_delimiter("Convert masks to rle...")
 def main_torle(imdir: str) -> None:
     img_names = images(imdir)
     img_locations = (os.path.join(imdir, img) for img in img_names)
-    rles = (mask2rle(cv2.imread(img)) for img in img_locations)
-    rle_result = pd.DataFrame(tuple(zip(img_names, rles)), columns=["image", 'rle'])
+    img_data = tuple(cv2.imread(img) for img in img_locations)
+    img_sizes = (img.shape[:2] for img in img_data)
+    rles = convert_to_rle(img_data)
+    rle_result = pd.DataFrame(tuple(zip(img_names, rles, img_sizes)), columns=["image", 'rle', 'shape'])
     rle_result.to_csv(f"rle_of_{imdir}.csv", index=False)
+
+
+@print_delimiter
+def main_frommrle(filename: str) -> None:
+    pass
