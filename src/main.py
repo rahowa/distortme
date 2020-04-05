@@ -1,18 +1,19 @@
 import sys
 import typer
-from typing import List
+import asyncio
+from typing import List, Tuple
 from pathlib import Path
 from colorama import init
 
 sys.path.append("../")
 
-from src.datasets_utils import Datasets
+from src.datasets import Datasets
 from src.aug_utils import main_apply_augmentations, SlowAugs
 from src.split_utils import main_split_files, main_show_hist
 from src.hdf5_utils import main_save_to_hdf5, main_extract_from_hdf5
-from src.rle_utils import main_torle
+from src.rle_utils import main_torle, main_frommrle
 from src.main_utils import not_implemented
-
+from src.datasets_download_utils import main_download
 
 app = typer.Typer()
 init()
@@ -109,12 +110,21 @@ def torle(imdir: Path = typer.Option(None)) -> None:
 
 @app.command()
 @not_implemented
-def fromrle(file: List[Path] = None) -> None:
+def fromrle(file: Path = None,
+            size: Tuple[int, int] = typer.Option(None),
+            imdir: Path = typer.Option(None),
+            colimg: str = typer.Option("image"),
+            colsize: str = typer.Option("size")) -> None:
     """
+    [[NOT IMPLEMENTED]]\n
     Convert RLE format of masks to .PNG\n
-    --file File with RLE labels
+    --file    File with RLE labels
+    --size    One size for all mask in file. If size is unknown, provide 'imdir' and 'colimg'
+    --imdir   Directory with images. Provide if size is unknown or column with sizes is dropped
+    --colimg  Column in dataframe with name of corresponding image
+    --colsize Column in dataframe with size for each mask
     """
-    pass 
+    pass
 
 
 @app.command()
@@ -124,6 +134,7 @@ def label(imdir: Path = None,
           faces: bool = typer.Option(False),
           boxes: bool = typer.Option(False)) -> None:
     """
+    [[NOT IMPLEMENTED]]\n
     Create labels for images.\n
     --imdir   Directory with images to process.\n
     --classes Classify all images according to IMAGENET dataset.\n
@@ -134,8 +145,60 @@ def label(imdir: Path = None,
 
 
 @app.command()
+def download(dataset: List[Datasets] = None, to: Path = typer.Option(None)) -> None:
+    """
+    Asynchronously download packed datasets in original format\n
+
+    --dataset Dataset name from available variants\n
+    --to      Folder to save datasets\n
+    """
+    if not dataset:
+        typer.echo("Provide name of dataset like --dataset MNIST to download PACKED (archived) data")
+        typer.Exit()
+    else:
+        asyncio.run(main_download(dataset, str(to)))
+
+
+@app.command()
 @not_implemented
-def download(dataset: List[Datasets] = None) -> None:
+def info(imdir: Path = typer.Option(Path), file: Path = typer.Option(Path)) -> None:
+    """
+    [[NOT IMPLEMENTED]]\n
+    Print all info about dataset in console
+    """
+    pass
+
+
+@app.command()
+@not_implemented
+def unpack(file: List[Path] = None) -> None:
+    """
+    [[NOT IMPLEMENTED]]\n
+    Unpack any archive file into folder with the name of archive.
+    :param file:
+    :return:
+    """
+    pass
+
+
+@app.command()
+@not_implemented
+def voc2coco() -> None:
+    """
+    [[NOT IMPLEMENTED]]\n
+    Convert any dataset in PASCAL VOC format to COCO format.
+    :return:
+    """
+    pass
+
+
+@app.command()
+@not_implemented
+def coco2voc() -> None:
+    """
+    [[NOT IMPLEMENTED]]\n
+    Convert any dataset in COCO format ot PASCAL VOC format.
+    """
     pass
 
 
