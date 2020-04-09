@@ -10,6 +10,7 @@ from src.augmentations import SLOW_AUGS_DICT, SlowAugs
 from src.files_utils import create_folders, full_path, images
 from src.main_utils import print_delimiter
 
+
 class ApplyAugmentation:
     def __init__(self, output_folder: str, aug: BaseAug) -> None:
         self.aug = aug
@@ -33,13 +34,13 @@ def augment_all_images(images: Sequence[str], output_folder: str, aug: BaseAug) 
     pool.map(process_one_image, images)
 
 
-@print_delimiter("Applying augmentations to images...")
+@print_delimiter("Applying augmentations to images")
 def main_apply_augmentations(imdir: str, augs: List[SlowAugs]) -> None:
     all_images = tuple(map(lambda x: os.path.join(imdir, x), images(imdir)))
     used_augs = tuple(SLOW_AUGS_DICT[aug.value] for aug in augs)
     aug_folders = tuple(full_path(tuple(aug.value for aug in augs), imdir))
     create_folders(aug_folders)
-    pbar = tqdm(zip(aug_folders, used_augs, augs))
+    pbar = tqdm(zip(aug_folders, used_augs, augs), ncols=80)
     for out_dir, out_aug, aug_name in pbar:
         augment_all_images(all_images, out_dir, out_aug)
-        pbar.set_description(f"Augmetation: {aug_name}")
+        pbar.set_description(f"Augmetation: [{aug_name}]")
