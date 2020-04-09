@@ -14,6 +14,7 @@ from src.hdf5_utils import main_save_to_hdf5, main_extract_from_hdf5
 from src.rle_utils import main_torle, main_frommrle
 from src.main_utils import not_implemented
 from src.datasets_download_utils import main_download
+from src.unpack_utils import main_unpack
 
 app = typer.Typer()
 init()
@@ -40,6 +41,7 @@ def augs(imdir: Path = None, aug: List[SlowAugs] = None) -> None:
     --imdir Directory with images to process\n
     --aug   Augmentation to apply. You may specify as mach augmentations as you want. 
     """
+
     if not imdir:
         typer.echo("Provide path to folder with images: --imdir path/to/folder")
         typer.Exit()
@@ -57,7 +59,8 @@ def split(imdir: Path = None, desc: List[str] = None, copy: bool = typer.Option(
     --imdir Directory with files (e.g. images) to process\n
     --desc  Descriptor of each class in file name\n
     --copy  Copy files if enabled. Else move them to corresponding folder.
-    """ 
+    """
+
     if not imdir:
         typer.echo("Provide path to folder with files: --imdir path/to/folder")
         typer.Exit()
@@ -75,6 +78,7 @@ def tohd5(imdir: Path = None, labels: str = typer.Option(None)) -> None:
     Convert dataset into HDF5 format to speedup data loading.\n
     --imdir Directory with images to convert
     """
+
     if not imdir:
         typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
         typer.Exit()
@@ -88,6 +92,7 @@ def fromhd5(file: List[Path] = None) -> None:
     Extract files from HDF5 dataset.\n
     --file HDF5 file to extract
     """
+
     if not file:
         typer.echo("Provide at least one .h5 file")
         exit()
@@ -101,6 +106,7 @@ def torle(imdir: Path = typer.Option(None)) -> None:
     Convert images with masks to .csv filr with RLE labels.\n
     --imdir Directory with images to convert.\n
     """
+
     if not imdir:
         typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
         exit()
@@ -124,6 +130,48 @@ def fromrle(file: Path = None,
     --colimg  Column in dataframe with name of corresponding image
     --colsize Column in dataframe with size for each mask
     """
+
+    pass
+
+
+@app.command()
+def download(dataset: List[Datasets] = None, to: Path = typer.Option(None)) -> None:
+    """
+    Asynchronously download packed datasets in original format\n
+
+    --dataset Dataset name from available variants\n
+    --to      Folder to save datasets\n
+    """
+
+    if not dataset:
+        typer.echo("Provide name of dataset like --dataset MNIST to download PACKED (archived) data")
+        typer.Exit()
+    else:
+        asyncio.run(main_download(dataset, str(to)))
+
+
+@app.command()
+def unpack(file: List[Path] = None) -> None:
+    """
+    Unpack any archive file into folder with the name of archive.
+    --file Path to archive to unpack
+    """
+
+    if not file:
+        typer.echo("Provide file to unpack:  --file /path/to/archive")
+        typer.Exit()
+    else:
+        main_unpack(tuple(str(file_path) for file_path in file))
+
+
+@app.command()
+@not_implemented
+def ext() -> None:
+    """
+    [[NOT IMPLEMENTED]]\n
+    Convert images to certain extension as .jpg .png etc.
+    :return:
+    """
     pass
 
 
@@ -145,38 +193,11 @@ def label(imdir: Path = None,
 
 
 @app.command()
-def download(dataset: List[Datasets] = None, to: Path = typer.Option(None)) -> None:
-    """
-    Asynchronously download packed datasets in original format\n
-
-    --dataset Dataset name from available variants\n
-    --to      Folder to save datasets\n
-    """
-    if not dataset:
-        typer.echo("Provide name of dataset like --dataset MNIST to download PACKED (archived) data")
-        typer.Exit()
-    else:
-        asyncio.run(main_download(dataset, str(to)))
-
-
-@app.command()
 @not_implemented
 def info(imdir: Path = typer.Option(Path), file: Path = typer.Option(Path)) -> None:
     """
     [[NOT IMPLEMENTED]]\n
     Print all info about dataset in console
-    """
-    pass
-
-
-@app.command()
-@not_implemented
-def unpack(file: List[Path] = None) -> None:
-    """
-    [[NOT IMPLEMENTED]]\n
-    Unpack any archive file into folder with the name of archive.
-    :param file:
-    :return:
     """
     pass
 
