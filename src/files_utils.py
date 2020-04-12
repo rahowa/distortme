@@ -7,6 +7,11 @@ def images(folder: str) -> Tuple[str, ...]:
     return tuple(filter(lambda x: x.endswith(valid_formats), os.listdir(folder)))
 
 
+def directories(folder: str) -> Tuple[str, ...]:
+    return tuple(filter(lambda x: os.path.isdir(os.path.join(folder, x)),
+                        os.listdir(folder)))
+
+
 def current_dir() -> str:
     return os.getcwd()
 
