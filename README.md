@@ -1,4 +1,6 @@
-![Here should be logo :D](assets/logo.png?raw=true "distorme logo")
+<p align="center">
+    <img src="assets/logo.png" alt="Logo" width="400" height="400" />
+</p>
 
 # distort --me
 > CLI utility for augmentation and preprocessing images.
@@ -7,8 +9,8 @@
 ## Table of Contents
 - [Installation](#installation)
 - [Installation from source](#installation-from-source)
-- [Usage](#usage)
 - [Features](#features)
+- [Usage](#usage)
 - [License](#license)
 
 ---
