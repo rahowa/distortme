@@ -42,6 +42,6 @@ def not_implemented(f: Callable) -> Callable:
     def wrapper(*args, **kwargs) -> None:
         warning = typer.style("WARNING".center(80), fg=typer.colors.GREEN, bg=typer.colors.RED, bold=True, blink=True)
         typer.echo(warning)
-        typer.secho("This functionality is not implemented yet. Updates soon.".center(80), fg=typer.colors.RED)
+        typer.secho("This functionality is not fully implemented yet. Updates soon.".center(80), fg=typer.colors.RED)
         f(*args, **kwargs)
     return wrapper
