@@ -1,10 +1,11 @@
 import os
-from typing import Iterator, Sequence, Tuple
+from typing import Iterator, Sequence, Tuple, Optional
 
 
-def images(folder: str) -> Tuple[str, ...]:
-    valid_formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')
-    return tuple(filter(lambda x: x.endswith(valid_formats), os.listdir(folder)))
+def images(folder: str, formats: Optional[Sequence[str]] = None) -> Tuple[str, ...]:
+    if not formats:
+        formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')
+    return tuple(filter(lambda x: x.endswith(formats), os.listdir(folder)))
 
 
 def directories(folder: str) -> Tuple[str, ...]:
