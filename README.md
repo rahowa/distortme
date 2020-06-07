@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="assets/logo.png" alt="Logo" width="400" height="400" />
+    <img src="assets/logo.png" alt="Logo" width="200" height="200" />
 </p>
 
 # distort --me
