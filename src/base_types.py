@@ -149,3 +149,33 @@ class ClassificationResult(BaseResult):
             "conf": self.conf,
             "class_id": self.class_id
         }
+
+
+@dataclass
+class SegmentationResult(BaseResult):
+    """
+    Result from semantic segmentation algotithm for one image
+
+    Parameters
+    ----------
+        mask: Array[float]
+    """
+
+    mask: Array[float]
+
+    def to_dict(self, path: str) -> Dict[str, Any]:
+        """
+        Convert data to dict
+
+        Parameters
+        ----------
+            path: str
+                Path to analyzed image
+
+        Return
+        ------
+            result dict: Dict[str, str]
+                Dictionary prepared to serizlization
+        """
+
+        return {"mask": mask_to_rle(self.mask)}
