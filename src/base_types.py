@@ -178,4 +178,4 @@ class SegmentationResult(BaseResult):
                 Dictionary prepared to serizlization
         """
 
-        return {"mask": mask_to_rle(self.mask)}
+        return {"mask": self.mask}
