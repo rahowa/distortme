@@ -137,23 +137,24 @@ def torle(imdir: Path = typer.Option(None)) -> None:
 
 
 @app.command()
-@not_implemented
 def fromrle(file: Path = None,
-            size: Tuple[int, int] = typer.Option(None),
-            imdir: Path = typer.Option(None),
-            colimg: str = typer.Option("image"),
-            colsize: str = typer.Option("size")) -> None:
+            colrle: str = typer.Option("rle"),
+            colsize: str = typer.Option("size"),
+            colimg: str = typer.Option("image_name")) -> None:
     """
     [[IN PROGRESS]]\n
     Convert RLE format of masks to .PNG\n
     --file    File with RLE labels
-    --size    One size for all mask in file. If size is unknown, provide 'imdir' and 'colimg'
-    --imdir   Directory with images. Provide if size is unknown or column with sizes is dropped
-    --colimg  Column in dataframe with name of corresponding image
+    --colrle  Column in dataframe with rles
     --colsize Column in dataframe with size for each mask
+    --colimg  Column in dataframe with name of corresponding image
     """
 
-    pass
+    if not file:
+        typer.echo("Provide path to .csv file with encoded masks")
+        typer.Exit()
+    else:
+        main_frommrle(str(file), colrle, colsize, colimg)
 
 
 @app.command()
@@ -191,8 +192,6 @@ def convert(imdir: Path,
         typer.Exit()
     else:
         main_convert(str(imdir), orig, to)
-
-
 
 
 @app.command()
