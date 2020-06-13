@@ -15,6 +15,11 @@ from src.rle_utils import main_torle, main_frommrle
 from src.main_utils import not_implemented
 from src.datasets_download_utils import main_download
 from src.unpack_utils import main_unpack
+from src.info_utils import main_info
+from src.label_utils import main_labels
+from src.nn_models import Models
+from src.convert_utils import main_convert
+
 
 app = typer.Typer()
 init()
@@ -27,6 +32,7 @@ def callback() -> None:
 
     Possible operations are given below under 'Commands: '
 
+    To get more info type 'distortme <command> --help'
     """
 
 @app.command()
@@ -36,7 +42,7 @@ def augs(imdir: Path = None, aug: List[SlowAugs] = None) -> None:
     different folders with name corresponded to augmentation.\n
     Possible augmentations:\n 
     [rotate|shift_scale_rotate|shift_hsv|equalize|resize512|resize300|resize256|resize224|to_gray|
-    crop|contrast|bright]
+    crop|contrast|bright]\n
 
     --imdir Directory with images to process\n
     --aug   Augmentation to apply. You may specify as mach augmentations as you want. 
@@ -95,43 +101,9 @@ def fromhd5(file: List[Path] = None) -> None:
 
     if not file:
         typer.echo("Provide at least one .h5 file")
-        exit()
+        typer.Exit()
     else:
         main_extract_from_hdf5(tuple(map(lambda x: str(x), file)))
-
-
-@app.command()
-def torle(imdir: Path = typer.Option(None)) -> None:
-    """
-    Convert images with masks to .csv filr with RLE labels.\n
-    --imdir Directory with images to convert.\n
-    """
-
-    if not imdir:
-        typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
-        exit()
-    else:
-        main_torle(str(imdir))
-
-
-@app.command()
-@not_implemented
-def fromrle(file: Path = None,
-            size: Tuple[int, int] = typer.Option(None),
-            imdir: Path = typer.Option(None),
-            colimg: str = typer.Option("image"),
-            colsize: str = typer.Option("size")) -> None:
-    """
-    [[NOT IMPLEMENTED]]\n
-    Convert RLE format of masks to .PNG\n
-    --file    File with RLE labels
-    --size    One size for all mask in file. If size is unknown, provide 'imdir' and 'colimg'
-    --imdir   Directory with images. Provide if size is unknown or column with sizes is dropped
-    --colimg  Column in dataframe with name of corresponding image
-    --colsize Column in dataframe with size for each mask
-    """
-
-    pass
 
 
 @app.command()
@@ -151,6 +123,40 @@ def download(dataset: List[Datasets] = None, to: Path = typer.Option(None)) -> N
 
 
 @app.command()
+def torle(imdir: Path = typer.Option(None)) -> None:
+    """
+    Convert images with masks to .csv filr with RLE labels.\n
+    --imdir Directory with images to convert.\n
+    """
+
+    if not imdir:
+        typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
+        typer.Exit()
+    else:
+        main_torle(str(imdir))
+
+
+@app.command()
+@not_implemented
+def fromrle(file: Path = None,
+            size: Tuple[int, int] = typer.Option(None),
+            imdir: Path = typer.Option(None),
+            colimg: str = typer.Option("image"),
+            colsize: str = typer.Option("size")) -> None:
+    """
+    [[IN PROGRESS]]\n
+    Convert RLE format of masks to .PNG\n
+    --file    File with RLE labels
+    --size    One size for all mask in file. If size is unknown, provide 'imdir' and 'colimg'
+    --imdir   Directory with images. Provide if size is unknown or column with sizes is dropped
+    --colimg  Column in dataframe with name of corresponding image
+    --colsize Column in dataframe with size for each mask
+    """
+
+    pass
+
+
+@app.command()
 def unpack(file: List[Path] = None) -> None:
     """
     Unpack any archive file into folder with the name of archive.
@@ -166,47 +172,72 @@ def unpack(file: List[Path] = None) -> None:
 
 @app.command()
 @not_implemented
-def ext() -> None:
+def convert(imdir: Path,
+            orig: List[str] = typer.Option(None),
+            to: str = None) -> None:
     """
-    [[NOT IMPLEMENTED]]\n
+    [[IN PROGRESS]]\n
     Convert images to certain extension as .jpg .png etc.
-    :return:
+
+    --imdir Directory with images to process\n
+    --orig  Formats of files that will be concerted\n
+    --to    Target format\n
     """
-    pass
+    if not imdir:
+        typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
+        typer.Exit()
+    if not to:
+        typer.echo("Provide target format of images: img.orig -> img.to")
+        typer.Exit()
+    else:
+        main_convert(str(imdir), orig, to)
+
+
 
 
 @app.command()
 @not_implemented
 def label(imdir: Path = None,
-          classes: bool = typer.Option(bool),
-          faces: bool = typer.Option(False),
-          boxes: bool = typer.Option(False)) -> None:
+          task: List[Models] = None,
+          bs: int = typer.Option(4),
+          out: Path = typer.Option("result.json")) -> None:
     """
-    [[NOT IMPLEMENTED]]\n
+    [[IN PROGRESS]]\n
     Create labels for images.\n
-    --imdir   Directory with images to process.\n
-    --classes Classify all images according to IMAGENET dataset.\n
-    --faces   Detect all faces and store boxes at normalized {xmin, ymin, xmax, ymax} format.\n
-    --boxes   Detect all boxes and scores according to COCO dataset.\n
+    --imdir Directory with images to process.\n
+    --bs    Batch size
+    --task  Classify all images according to IMAGENET dataset or\n
+            Detect all faces and store boxes at normalized {xmin, ymin, xmax, ymax} format or\n
+            Detect all boxes and scores according to COCO dataset.\n
+    --out   Json file with results for each task
     """
-    pass
+
+    if not imdir:
+        typer.echo("Provide imdir to folder with images: --imdir /path/to/images")
+        typer.Exit()
+    else:
+        main_labels(str(imdir), task, bs, str(out))
 
 
 @app.command()
 @not_implemented
 def info(imdir: Path = typer.Option(Path), file: Path = typer.Option(Path)) -> None:
     """
-    [[NOT IMPLEMENTED]]\n
+    [[IN PROGRESS]]\n
     Print all info about dataset in console
     """
-    pass
+    if (not imdir) and (not file):
+        typer.echo("Provide imdir or path to .csv file with data to get dataset info")
+        typer.Exit()
+    else:
+        main_info(str(imdir))
 
 
 @app.command()
 @not_implemented
 def voc2coco() -> None:
     """
-    [[NOT IMPLEMENTED]]\n
+    [[IN PROGRESS]]\n
     Convert any dataset in PASCAL VOC format to COCO format.
     :return:
     """
@@ -217,10 +248,22 @@ def voc2coco() -> None:
 @not_implemented
 def coco2voc() -> None:
     """
-    [[NOT IMPLEMENTED]]\n
+    [[IN PROGRESS]]\n
     Convert any dataset in COCO format ot PASCAL VOC format.
     """
     pass
+
+
+@app.command()
+@not_implemented
+def map(imdir: List[Path] = None, fun: Path = None) -> None:
+    """
+    [[IN PROGRESS]]\n
+    Apply csutom processing to all files in folder\n
+    --imdir Path to folder with files to process
+    --fun Path to script.py file with function 'process' with only one argument
+    """
+    pass 
 
 
 if __name__ == "__main__":
