@@ -142,7 +142,6 @@ def fromrle(file: Path = None,
             colsize: str = typer.Option("size"),
             colimg: str = typer.Option("image_name")) -> None:
     """
-    [[IN PROGRESS]]\n
     Convert RLE format of masks to .PNG\n
     --file    File with RLE labels
     --colrle  Column in dataframe with rles
@@ -177,7 +176,6 @@ def convert(imdir: Path = None,
             orig: List[str] = typer.Option(None),
             to: str = None) -> None:
     """
-    [[IN PROGRESS]]\n
     Convert images to certain extension as .jpg .png etc.
 
     --imdir Directory with images to process\n
