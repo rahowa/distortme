@@ -1,7 +1,7 @@
 import sys
 import typer
 import asyncio
-from typing import List, Tuple
+from typing import List
 from pathlib import Path
 from colorama import init
 
@@ -172,8 +172,8 @@ def unpack(file: List[Path] = None) -> None:
 
 
 @app.command()
-@not_implemented
-def convert(imdir: Path,
+# @not_implemented
+def convert(imdir: Path = None,
             orig: List[str] = typer.Option(None),
             to: str = None) -> None:
     """
