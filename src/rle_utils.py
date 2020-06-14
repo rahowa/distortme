@@ -4,7 +4,9 @@ from typing import Any, Sequence, Tuple, Callable
 import cv2
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 import multiprocessing as mp
+from tqdm.contrib.concurrent import process_map
 
 from src.base_types import Image
 from src.files_utils import images
@@ -12,7 +14,7 @@ from src.main_utils import print_delimiter
 
 
 def rle2mask(mask_and_shape: Tuple[str, Image]) -> Image:
-    mask_rle, shape = *mask_and_shape
+    mask_rle, shape = mask_and_shape
     if mask_rle != mask_rle:
         return np.zeros_like(shape)
 
@@ -43,10 +45,13 @@ def save_mask(image_data: Tuple[str, Image]) -> None:
 def proces_async(data: Sequence[Any],
                  function: Callable[[Tuple[Any, ...]], Any]) -> Tuple[Any, ...]:
     if len(data) < 100:
-        return tuple(function(data_sample) for data_sample in data)
-
-    pool = mp.Pool(mp.cpu_count())
-    return tuple(pool.map(function, data))
+        res = []
+        for data_sample in tqdm(data, ncols=80):
+            res.append(function(data_sample))
+        return tuple(res)
+    else:
+        return tuple(process_map(function, data,
+                                 max_workers=mp.cpu_count(), ncols=80))
 
 
 @print_delimiter("Convert masks to rle's...")
