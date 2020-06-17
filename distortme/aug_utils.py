@@ -5,10 +5,10 @@ import multiprocessing as mp
 from typing import Sequence, List
 
 
-from src.base_types import Image, BaseAug
-from src.augmentations import SLOW_AUGS_DICT, SlowAugs
-from src.files_utils import create_folders, full_path, images
-from src.main_utils import print_delimiter
+from distortme.base_types import Image, BaseAug
+from distortme.augmentations import SLOW_AUGS_DICT, SlowAugs
+from distortme.files_utils import create_folders, full_path, images
+from distortme.main_utils import print_delimiter
 
 
 class ApplyAugmentation:

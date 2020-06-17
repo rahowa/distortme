@@ -7,8 +7,8 @@ from typing import List, Tuple, Dict
 import termplotlib as tpl
 from frozendict import frozendict
 
-from src.files_utils import full_path, images, create_folders
-from src.main_utils import print_delimiter
+from distortme.files_utils import full_path, images, create_folders
+from distortme.main_utils import print_delimiter
 
 class CopyTo:
     def __init__(self, path_to_save: str) -> None:

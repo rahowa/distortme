@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from src.base_types import BaseResult
+from distortme.base_types import BaseResult
 
 
 class BaseWrapper(ABC):

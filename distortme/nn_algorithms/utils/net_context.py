@@ -1,7 +1,7 @@
 import typer
 from typing import Sequence, Union, List, Optional
-from src.nn_algorithms.utils.base_wrapper import BaseWrapper
-from src.base_types import Image, BaseResult
+from distortme.nn_algorithms.utils.base_wrapper import BaseWrapper
+from distortme.base_types import Image, BaseResult
 
 
 class NetworkContext:

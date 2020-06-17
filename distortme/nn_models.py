@@ -1,6 +1,6 @@
 from enum import Enum
 from frozendict import frozendict
-from src.nn_algorithms.faces.wrappers.blaze_face_wrapper import BlazeFaceWrapper
+from distortme.nn_algorithms.faces.wrappers.blaze_face_wrapper import BlazeFaceWrapper
 
 
 class Models(str, Enum):

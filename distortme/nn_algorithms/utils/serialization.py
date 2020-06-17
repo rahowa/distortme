@@ -1,7 +1,7 @@
 import json
 from typing import Sequence
 
-from src.base_types import BaseResult
+from distortme.base_types import BaseResult
 
 
 def save_results(result_file: str, files: Sequence[str], results: Sequence[BaseResult]) -> None:

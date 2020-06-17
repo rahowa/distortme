@@ -4,8 +4,8 @@ import multiprocessing as mp
 from typing import List, Sequence
 from tqdm.contrib.concurrent import process_map
 
-from src.files_utils import images
-from src.main_utils import print_delimiter
+from distortme.files_utils import images
+from distortme.main_utils import print_delimiter
 
 
 def convert(imdir: str, orig_ext: Sequence[str], target_ext: str) -> None:

@@ -3,9 +3,9 @@ import aiohttp
 import asyncio
 from tqdm import tqdm
 from typing import Sequence, Dict
-from src.datasets import Datasets, DATASET_DOWNLOAD_LINKS
-from src.files_utils import create_folders
-from src.main_utils import print_delimiter_async
+from distortme.datasets import Datasets, DATASET_DOWNLOAD_LINKS
+from distortme.files_utils import create_folders
+from distortme.main_utils import print_delimiter_async
 
 
 class Downloader:

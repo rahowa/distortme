@@ -7,9 +7,9 @@ import pandas as pd
 import multiprocessing as mp
 from typing import Sequence, Tuple
 
-from src.base_types import Labels, Image
-from src.files_utils import images, create_folders
-from src.main_utils import print_delimiter
+from distortme.base_types import Labels, Image
+from distortme.files_utils import images, create_folders
+from distortme.main_utils import print_delimiter
 
 
 def read_labels_npy(path: str) -> Labels:

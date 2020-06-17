@@ -4,10 +4,10 @@ import numpy as np
 from pathlib import Path
 from typing import Sequence, Iterator, List
 
-from src.nn_algorithms.utils.base_wrapper import BaseWrapper
-from src.base_types import Image, FaceResult
-from src.nn_algorithms.faces.BlazeFace_PyTorch.blazeface import BlazeFace
-from src.nn_algorithms.utils.utils import chunks
+from distortme.nn_algorithms.utils.base_wrapper import BaseWrapper
+from distortme.base_types import Image, FaceResult
+from distortme.nn_algorithms.faces.BlazeFace_PyTorch.blazeface import BlazeFace
+from distortme.nn_algorithms.utils.utils import chunks
 
 
 class BlazeFaceWrapper(BaseWrapper):

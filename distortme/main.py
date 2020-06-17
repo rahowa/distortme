@@ -7,18 +7,18 @@ from colorama import init
 
 sys.path.append("../")
 
-from src.datasets import Datasets
-from src.aug_utils import main_apply_augmentations, SlowAugs
-from src.split_utils import main_split_files, main_show_hist
-from src.hdf5_utils import main_save_to_hdf5, main_extract_from_hdf5
-from src.rle_utils import main_torle, main_frommrle
-from src.main_utils import not_implemented
-from src.datasets_download_utils import main_download
-from src.unpack_utils import main_unpack
-from src.info_utils import main_info
-from src.label_utils import main_labels
-from src.nn_models import Models
-from src.convert_utils import main_convert
+from distortme.datasets import Datasets
+from distortme.aug_utils import main_apply_augmentations, SlowAugs
+from distortme.split_utils import main_split_files, main_show_hist
+from distortme.hdf5_utils import main_save_to_hdf5, main_extract_from_hdf5
+from distortme.rle_utils import main_torle, main_frommrle
+from distortme.main_utils import not_implemented
+from distortme.datasets_download_utils import main_download
+from distortme.unpack_utils import main_unpack
+from distortme.info_utils import main_info
+from distortme.label_utils import main_labels
+from distortme.nn_models import Models
+from distortme.convert_utils import main_convert
 
 
 app = typer.Typer()
@@ -34,6 +34,7 @@ def callback() -> None:
 
     To get more info type 'distortme <command> --help'
     """
+
 
 @app.command()
 def augs(imdir: Path = None, aug: List[SlowAugs] = None) -> None:
@@ -171,7 +172,6 @@ def unpack(file: List[Path] = None) -> None:
 
 
 @app.command()
-# @not_implemented
 def convert(imdir: Path = None,
             orig: List[str] = typer.Option(None),
             to: str = None) -> None:

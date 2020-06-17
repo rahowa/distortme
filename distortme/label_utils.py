@@ -2,11 +2,11 @@ import os
 import cv2
 import typer
 from typing import List
-from src.nn_algorithms.utils.net_context import NetworkContext
-from src.nn_algorithms.utils.serialization import save_results
-from src.files_utils import images
-from src.nn_models import TASK_TO_MODEL, Models
-from src.main_utils import print_delimiter
+from distortme.nn_algorithms.utils.net_context import NetworkContext
+from distortme.nn_algorithms.utils.serialization import save_results
+from distortme.files_utils import images
+from distortme.nn_models import TASK_TO_MODEL, Models
+from distortme.main_utils import print_delimiter
 
 
 @print_delimiter("Creating labels for current dataset")

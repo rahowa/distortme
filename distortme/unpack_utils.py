@@ -3,7 +3,7 @@ from tqdm import tqdm
 from frozendict import frozendict
 from typing import Callable, Sequence
 
-from src.main_utils import print_delimiter
+from distortme.main_utils import print_delimiter
 
 
 def unpack_command(command: str) -> Callable[[str], None]:

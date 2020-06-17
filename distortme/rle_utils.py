@@ -8,9 +8,9 @@ from tqdm import tqdm
 import multiprocessing as mp
 from tqdm.contrib.concurrent import process_map
 
-from src.base_types import Image
-from src.files_utils import images
-from src.main_utils import print_delimiter
+from distortme.base_types import Image
+from distortme.files_utils import images
+from distortme.main_utils import print_delimiter
 
 
 def rle2mask(mask_and_shape: Tuple[str, Image]) -> Image:
