@@ -5,6 +5,8 @@ from tqdm import tqdm
 import xml.etree.ElementTree as ET
 from typing import Any, Dict, List, Union, Optional
 
+from distortme.main_utils import print_delimiter
+
 
 def get_label2id(labels_path: str) -> Dict[str, int]:
     """id is 1 start"""
@@ -118,6 +120,7 @@ def convert_xmls_to_cocojson(annotation_paths: List[str],
         f.write(output_json)
 
 
+@print_delimiter("Convert to MSCOCO dataset...")
 def main_voc2coco(anndir: str,
                   annids: str,
                   labels: str,
