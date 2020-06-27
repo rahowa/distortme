@@ -15,6 +15,7 @@ from distortme.unpack_utils import main_unpack
 from distortme.convert_utils import main_convert
 from distortme.main_utils import not_implemented
 from distortme.voc2coco_utils import main_voc2coco
+from distortme.coco2voc_utils import main_coco2voc
 from distortme.rle_utils import main_torle, main_frommrle
 from distortme.datasets_download_utils import main_download
 from distortme.aug_utils import main_apply_augmentations, SlowAugs
@@ -265,14 +266,20 @@ def voc2coco(anndir: Path = None,
 
 
 @app.command()
-@not_implemented
-def coco2voc() -> None:
+def coco2voc(anns: Path = None, dstdir = typer.Option(None)) -> None:
     """
     [[IN PROGRESS]]\n
     Original implementation at https://gist.github.com/jinyu121/a222492405890ce912e95d8fb5367977 \n
     Convert any dataset in COCO format ot PASCAL VOC format.
+    --anns   Path to COCO annotation .json file
+    --dstdir Directory to save results
     """
-    pass
+    if not anns:
+        typer.echo("Provide path to COCO annotation .json file")
+        typer.Exit()
+    else:
+        main_coco2voc(str(anns), 
+                      str(dstdir) if dstdir is not None else None)
 
 
 @app.command()
