@@ -24,6 +24,7 @@ frozendict = "^1.2"
 pandas = "^1.0.4"
 termplotlib = "^0.3.1"
 opencv-python = "^4.1.1.26"
+xmltodict = "^0.12.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
