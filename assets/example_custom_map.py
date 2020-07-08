@@ -1,13 +1,16 @@
 import numpy as np
 
 
-ImageType = np.ndarray  #Data type for exmaple
+ImageType = np.ndarray  # Data type for exmaple
 
 
 def map_fn(entity: ImageType) -> ImageType:
     """
     Example of custom map function
-    ImageType should be np.ndarray or anything that OpenCV can handle
+    [ATTENTION]
+        *  ImageType should be np.ndarray or anything that OpenCV can handle
+        *  Name of your functon should be exactly 'map_fn'
+        *  Function should return element the same type that accept
     Parameters
     ----------
         entity: DataSample
