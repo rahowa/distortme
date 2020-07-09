@@ -16,12 +16,12 @@ from distortme.convert_utils import main_convert
 from distortme.main_utils import not_implemented
 from distortme.voc2coco_utils import main_voc2coco
 from distortme.coco2voc_utils import main_coco2voc
+from distortme.cusom_map_utils import main_custom_map
 from distortme.rle_utils import main_torle, main_frommrle
 from distortme.datasets_download_utils import main_download
 from distortme.aug_utils import main_apply_augmentations, SlowAugs
 from distortme.split_utils import main_split_files, main_show_hist
 from distortme.hdf5_utils import main_save_to_hdf5, main_extract_from_hdf5
-
 
 app = typer.Typer()
 colorama.init()
@@ -234,13 +234,11 @@ def info(imdir: Path = typer.Option(Path),
 
 
 @app.command()
-@not_implemented
 def voc2coco(anndir: Path = None,
              annids: Path = None,
              labels: Path = None,
              output: Path = typer.Option(Path)) -> None:
     """
-    [[IN PROGRESS]]\n
     Convert any dataset in PASCAL VOC format to COCO format.
     Original implementation at https://github.com/yukkyo/voc2coco \n
     --anndir Directory with PASCAL VOC annotations im .xml format\n
@@ -283,16 +281,21 @@ def coco2voc(anns: Path = None, dstdir = typer.Option(None)) -> None:
 
 
 @app.command()
-@not_implemented
-def map(imdir: List[Path] = None, fun: Path = None) -> None:
+def map(imdir: Path = None, fun: Path = None, resdir: Path = None) -> None:
     """
-    [[IN PROGRESS]]\n
     Apply csutom processing to all files in folder\n
-    --imdir Path to folder with files to process
-    --fun Path to script.py file with function 'process' with only one argument
+    --imdir  Path to folder with files to process
+    --fun    Path to script.py file with function 'process' with only one argument
+    --resdir Path to dir with modified images
     """
-    pass 
 
-
-if __name__ == "__main__":
-    app()
+    if not imdir:
+        typer.echo("Provide path to directory with images to apply map function")
+        typer.Exit()
+    if not fun:
+        typer.echo("Provide path to .py file with your own custom map")
+        typer.Exit()
+    if not resdir:
+        typer.echo("Provide path to result directory")
+    else:
+        main_custom_map(str(imdir), str(fun), str(resdir))
