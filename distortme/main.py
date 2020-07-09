@@ -1,15 +1,10 @@
-import sys
 import typer
 import asyncio
 import colorama
 from typing import List
 from pathlib import Path
-
-sys.path.append("../")
-
 from distortme.nn_models import Models
 from distortme.datasets import Datasets
-from distortme.info_utils import main_info
 from distortme.label_utils import main_labels
 from distortme.unpack_utils import main_unpack
 from distortme.convert_utils import main_convert
@@ -233,9 +228,6 @@ def info(imdir: Path = typer.Option(Path),
     if (not imdir) and (not file):
         typer.echo("Provide imdir or path to .csv file with data to get dataset info")
         typer.Exit()
-    else:
-        main_info(str(imdir))
-
 
 @app.command()
 def voc2coco(anndir: Path = None,
