@@ -204,6 +204,9 @@ def label(imdir: Path = None,
     """
     [[IN PROGRESS]]\n
     Create labels for images.\n
+
+    Original implementations:
+        * Face detection: https://github.com/hollance/BlazeFace-PyTorch
     --imdir Directory with images to process.\n
     --bs    Batch size\n
     --task  Classify all images according to IMAGENET dataset or\n
