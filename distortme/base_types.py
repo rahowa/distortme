@@ -7,7 +7,7 @@ from typing import Union, Tuple, Dict, Any, List
 from albumentations import BasicIAATransform, BasicTransform
 
 
-Image = NDArray[Union[np.uint8, np.float]]
+Image = Union[NDArray[np.uint8], NDArray[np.float]]
 ImageShape = Union[Tuple[int, int], Tuple[int, int, int]]
 BaseAug = Union[BasicTransform, BasicIAATransform]
 Labels = NDArray[int]
@@ -35,13 +35,13 @@ class FaceResult(BaseResult):
         boxes: Boxes, Tuple[float, float, float, float]
             List of detected boxes in format of normalized xmin, ymin, xmax, ymax
         
-        landmarks: List[NDArray[float, 6]], Sequene[np.ndarray]
+        landmarks: List[NDArray[6, float6]], Sequene[np.ndarray]
             List of detected face landmarks corresponding to boxes
     
     """
     conf: List[float] = field(default_factory=list)
     boxes: Boxes = field(default_factory=tuple)
-    landmarks: List[NDArray[float, 6]] = field(default_factory=list)
+    landmarks: List[NDArray[6, float]] = field(default_factory=list)
 
     def to_dict(self, path: str) -> Dict[str, Any]:
         """
