@@ -11,7 +11,7 @@ distortme = "distortme.main:app"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-numpy = "^0.1"
+numpy = "^1.1.18"
 colorama = "^0.4.3"
 typer = "^0.2.1"
 nptyping = "^1.1.0"
