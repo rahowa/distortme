@@ -51,11 +51,15 @@ $ distortme --help
 - Get info about certain dataset (`distortme info`)
 - Unpack any archive with one command (`distortme unpack`)
 - Perform augmentations for images before training (`distortme augs`)
+- Convert PASCAL VOC dataset format to COCO format (`distortme voc2coco`)
+- Convert COCO dataset format to PASCAL VOC format (`distortme coco2voc`)
 - Sort by folders images with certain descriptor in name (`distortme split`)
+- Apply custom dataset preprosesing with multiple prosesses (`distortme map`)
 - Convert segmentation masks to RLE-encoding and back (`distortme torle`, `distortme fromrle`)
 - Compress dataset to HDF5 format and decompress back (`distortme tohd5`, `distortme fromhd5`)
 - Allows to download most popular datasets to given folder without any code (`distortme download`)
-- Create labels for `Object detection`, `Face detection` and `Classification` tasks for your custom dataset (`distortme label`)
+- Create labels for `Object detection`, `Face detection` and `Classification` tasks for your custom dataset (`distortme label`)[IN PROGRESS]
+
 ## Usage
 
 ---
