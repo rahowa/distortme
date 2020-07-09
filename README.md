@@ -47,21 +47,37 @@ $ distortme --help
 ```
 
 ---
-## Features
-- Get info about certain dataset (`distortme info`)
-- Unpack any archive with one command (`distortme unpack`)
-- Show image inside terminal for fast checking (`distortme show`)
-- Perform augmentations for images before training (`distortme augs`)
-- Convert PASCAL VOC dataset format to COCO format (`distortme voc2coco`)
-- Convert COCO dataset format to PASCAL VOC format (`distortme coco2voc`)
-- Sort by folders images with certain descriptor in name (`distortme split`)
-- Apply custom dataset preprosesing with multiple prosesses (`distortme map`)
-- Convert segmentation masks to RLE-encoding and back (`distortme torle`, `distortme fromrle`)
-- Compress dataset to HDF5 format and decompress back (`distortme tohd5`, `distortme fromhd5`)
-- Allows to download most popular datasets to given folder without any code (`distortme download`)
-- Create labels for `Face detection`, `Object detection` [IN PROGRESS] and `Classification` [IN PROGRESS] tasks for your custom dataset (`distortme label`)
+## Features and commands 
+
+**Commands**:
+- `distortme info` Get info about certain dataset
+- `distortme unpack` Unpack any archive with one command 
+- `distortme show` Show image inside terminal for fast checking 
+- `distortme augs` Perform augmentations for images before training 
+- `distortme voc2coco` Convert PASCAL VOC dataset format to COCO format 
+- `distortme coco2voc` Convert COCO dataset format to PASCAL VOC format 
+- `distortme split` Sort by folders images with certain descriptor in name 
+- `distortme map` Apply custom dataset preprosesing with multiple prosesses 
+- `distortme torle` `distortme fromrle` Convert segmentation masks to RLE-encoding and back 
+- `distortme tohd5` `distortme fromhd5` Compress dataset to HDF5 format and decompress back 
+- `distortme download` Allows to download most popular datasets to given folder without any code 
+- `distortme label` Create labels for `Face detection`, `Object detection` [IN PROGRESS] and `Classification` [IN PROGRESS] tasks for your custom dataset 
+
+**Options**:
+* `--install-completion`: Install completion for the current shell.
+* `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
+* `--help`: Show this message and exit.
+
+
+## Documentation
+For more information check [DOCS.md](DOCS.md) file
 
 ## Usage
+**Use `distortme` as a regular CLI app**:
+
+```console
+$ distortme [OPTIONS] COMMAND [ARGS]...
+```
 
 ---
 ## Created with
@@ -73,4 +89,4 @@ $ distortme --help
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
-- **[MIT license](http://opensource.org/licenses/mit-license.php)**
+**[MIT license](http://opensource.org/licenses/mit-license.php)**
