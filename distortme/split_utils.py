@@ -10,6 +10,7 @@ from frozendict import frozendict
 from distortme.files_utils import full_path, images, create_folders
 from distortme.main_utils import print_delimiter
 
+
 class CopyTo:
     def __init__(self, path_to_save: str) -> None:
         self.path_to_save = path_to_save
