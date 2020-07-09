@@ -9,7 +9,7 @@
 ## Table of Contents
 - [Installation](#installation)
 - [Installation from source](#installation-from-source)
-- [Features](#features)
+- [Features and commands ](#features-and-commands)
 - [Usage](#usage)
 - [License](#license)
 
