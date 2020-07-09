@@ -147,10 +147,10 @@ def fromrle(file: Path = None,
             colimg: str = typer.Option("image_name")) -> None:
     """
     Convert RLE format of masks to .PNG. \n
-    --file    File with RLE labels
-    --colrle  Column in dataframe with rles
-    --colsize Column in dataframe with size for each mask
-    --colimg  Column in dataframe with name of corresponding image
+    --file    File with RLE labels\n
+    --colrle  Column in dataframe with rles\n
+    --colsize Column in dataframe with size for each mask\n
+    --colimg  Column in dataframe with name of corresponding image\n
     """
 
     if not file:
@@ -163,8 +163,8 @@ def fromrle(file: Path = None,
 @app.command()
 def unpack(file: List[Path] = None) -> None:
     """
-    Unpack any archive file into folder with the name of archive.
-    --file Path to archive to unpack
+    Unpack any archive file into folder with the name of archive.\n
+    --file Path to archive to unpack\n
     """
 
     if not file:
@@ -179,7 +179,7 @@ def convert(imdir: Path = None,
             orig: List[str] = typer.Option(None),
             to: str = None) -> None:
     """
-    Convert images to certain extension as .jpg .png etc.
+    Convert images to certain extension as .jpg .png etc.\n
 
     --imdir Directory with images to process\n
     --orig  Formats of files that will be concerted\n
@@ -205,7 +205,7 @@ def label(imdir: Path = None,
     [[IN PROGRESS]]\n
     Create labels for images.\n
     --imdir Directory with images to process.\n
-    --bs    Batch size
+    --bs    Batch size\n
     --task  Classify all images according to IMAGENET dataset or\n
             Detect all faces and store boxes at normalized {xmin, ymin, xmax, ymax} format or\n
             Detect all boxes and scores according to COCO dataset.\n
@@ -240,7 +240,7 @@ def voc2coco(anndir: Path = None,
              labels: Path = None,
              output: Path = typer.Option(Path)) -> None:
     """
-    Convert any dataset in PASCAL VOC format to COCO format.
+    Convert any dataset in PASCAL VOC format to COCO format.\n
     Original implementation at https://github.com/yukkyo/voc2coco \n
     --anndir Directory with PASCAL VOC annotations im .xml format\n
     --annids Path to file with annotations list in annotations/ids/\n
@@ -268,8 +268,8 @@ def voc2coco(anndir: Path = None,
 def coco2voc(anns: Path = None, dstdir = typer.Option(None)) -> None:
     """
     [[IN PROGRESS]]\n
+    Convert any dataset in COCO format ot PASCAL VOC format.\n
     Original implementation at https://gist.github.com/jinyu121/a222492405890ce912e95d8fb5367977 \n
-    Convert any dataset in COCO format ot PASCAL VOC format.
     --anns   Path to COCO annotation .json file\n
     --dstdir Directory to save results\n
     """
