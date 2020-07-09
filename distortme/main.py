@@ -17,6 +17,7 @@ from distortme.main_utils import not_implemented
 from distortme.voc2coco_utils import main_voc2coco
 from distortme.coco2voc_utils import main_coco2voc
 from distortme.cusom_map_utils import main_custom_map
+from distortme.show_image_utils import main_show_image
 from distortme.rle_utils import main_torle, main_frommrle
 from distortme.datasets_download_utils import main_download
 from distortme.aug_utils import main_apply_augmentations, SlowAugs
@@ -269,8 +270,8 @@ def coco2voc(anns: Path = None, dstdir = typer.Option(None)) -> None:
     [[IN PROGRESS]]\n
     Original implementation at https://gist.github.com/jinyu121/a222492405890ce912e95d8fb5367977 \n
     Convert any dataset in COCO format ot PASCAL VOC format.
-    --anns   Path to COCO annotation .json file
-    --dstdir Directory to save results
+    --anns   Path to COCO annotation .json file\n
+    --dstdir Directory to save results\n
     """
     if not anns:
         typer.echo("Provide path to COCO annotation .json file")
@@ -284,9 +285,9 @@ def coco2voc(anns: Path = None, dstdir = typer.Option(None)) -> None:
 def map(imdir: Path = None, fun: Path = None, resdir: Path = None) -> None:
     """
     Apply csutom processing to all files in folder\n
-    --imdir  Path to folder with files to process
-    --fun    Path to script.py file with function 'process' with only one argument
-    --resdir Path to dir with modified images
+    --imdir  Path to folder with files to process\n
+    --fun    Path to script.py file with function 'process' with only one argument\n
+    --resdir Path to dir with modified images\n
     """
 
     if not imdir:
@@ -299,3 +300,19 @@ def map(imdir: Path = None, fun: Path = None, resdir: Path = None) -> None:
         typer.echo("Provide path to result directory")
     else:
         main_custom_map(str(imdir), str(fun), str(resdir))
+
+
+@app.command()
+def show(impath: Path = None, height: int = typer.Option(35)) -> None:
+    """
+    Allow to show image inside terminal
+    Original implementation at https://github.com/nikhilkumarsingh/terminal-image-viewer
+    --impath Path to image\n
+    --height Number of terminal rows used to show image\n
+    """
+
+    if not impath:
+        typer.echo("Provide path to image to show")
+        typer.Exit()
+    else:
+        main_show_image(str(impath), height)
